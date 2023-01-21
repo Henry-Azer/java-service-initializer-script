@@ -5,21 +5,33 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * * @author Henry Azer
- * * @description java service initializer script
- * * @since 20/01/2023
+ * @author Henry Azer
+ * @description java service initializer script
+ * @since 20/01/2023
  **/
 public class JSIS {
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static String SERVICE_PACKAGE;
     private static String SERVICE_PATH;
     private static String SERVICE_NAME;
     private static Boolean ERROR = false;
 
     public static void main(String[] args) throws InterruptedException {
         jsisInfoPrints();
-        getServiceParams();
-        initializeServices();
+        jsisProcess();
         jsisInfoPrints();
+    }
+
+    private static void jsisProcess() throws InterruptedException {
+        boolean hasAnother;
+        do {
+            getServiceParams();
+            initializeServices();
+            System.out.print("Another Service? (yes, no): ");
+            String choice = SCANNER.nextLine();
+            hasAnother = choice.equalsIgnoreCase("yes");
+            if (hasAnother) System.out.println("-----------------------------------------");
+        } while (hasAnother);
     }
 
     private static void initializeServices() throws InterruptedException {
@@ -33,6 +45,7 @@ public class JSIS {
         initializeService();
         initializeController();
         printIfNoError("*** Initializing services -- ended");
+        System.out.println("-----------------------------------------");
     }
 
     private static void initializeController() throws InterruptedException {
@@ -117,19 +130,32 @@ public class JSIS {
         SERVICE_PATH = SCANNER.nextLine();
         System.out.print("Service Name: ");
         SERVICE_NAME = SCANNER.nextLine();
-        // check if service path and name are valid
-        checkIfServicePathValidDirectory();
-        checkIfServiceNamIsNotEmptyOrBlank();
+        System.out.print("Package Name: ");
+        SERVICE_PACKAGE = SCANNER.nextLine();
+        // check if service path, package and name are valid
+        checkIfServicePathValid();
+        checkIfServiceNameValid();
+        checkIfServicePackageValid();
     }
 
-    private static void checkIfServicePathValidDirectory() throws InterruptedException {
+    private static void checkIfServicePackageValid() throws InterruptedException {
+        // get service package name form service path if not specified
+        if (SERVICE_PACKAGE.isBlank() || SERVICE_PACKAGE.isEmpty()) {
+            if (SERVICE_PATH.contains("\\src\\main\\java\\"))
+                SERVICE_PACKAGE = SERVICE_PATH.substring(SERVICE_PATH.indexOf("\\src\\main\\java\\") + 15).replace("\\", ".");
+            else printError("Invalid service package");
+        }
+    }
+
+    private static void checkIfServicePathValid() throws InterruptedException {
         // check if service path is valid and is directory
         if (isStringValid(SERVICE_PATH) || (!new File(SERVICE_PATH).isDirectory())) printError("Invalid service path");
     }
 
-    private static void checkIfServiceNamIsNotEmptyOrBlank() throws InterruptedException {
+    private static void checkIfServiceNameValid() throws InterruptedException {
         // check if service name is valid or not only characters
-        if (isStringValid(SERVICE_NAME) || SERVICE_NAME.contains(" ") || !SERVICE_NAME.matches("[a-zA-Z]+")) printError("Invalid service name");
+        if (isStringValid(SERVICE_NAME) || SERVICE_NAME.contains(" ") || !SERVICE_NAME.matches("[a-zA-Z]+"))
+            printError("Invalid service name");
     }
 
     private static boolean isStringValid(String content) {
@@ -159,28 +185,5 @@ public class JSIS {
     private static void printIfNoError(String content) {
         if (ERROR) return;
         System.out.println(content);
-    }
-}
-
-enum Service {
-    REPOSITORY("Repo", "/dao/repo/"), DAO("Dao", "/dao/"), DAO_IMPL("DaoImpl", "/dao/"),
-    TRANSFORMER("Transformer", "/transformer/"), MAPPER("Mapper", "/transformer/mapper/"),
-    SERVICE("Service", "/service/"), SERVICE_IMPL("ServiceImpl", "/service/"),
-    CONTROLLER("Controller", "/controller/");
-
-    private final String name;
-    private final String path;
-
-    Service(String name, String path) {
-        this.name = name;
-        this.path = path;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPath() {
-        return path;
     }
 }
