@@ -109,7 +109,7 @@ public class JSIS {
 
             // write java service file content
             FileWriter fileWriter = new FileWriter(javaServiceFile.getPath());
-            fileWriter.write(ServiceContent.getServiceContent(SERVICE_NAME, SERVICE_NAME + service.getName(), SERVICE_PACKAGE));
+            fileWriter.write(ServiceContent.getServiceContent(service.getName(), SERVICE_NAME , SERVICE_PACKAGE));
             fileWriter.close();
         } catch (Exception exception) {
             printError("- " + SERVICE_NAME + service.getName() + " file");

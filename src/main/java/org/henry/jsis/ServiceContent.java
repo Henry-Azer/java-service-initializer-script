@@ -11,23 +11,15 @@ import java.util.Date;
 public class ServiceContent {
     private static final String DATE = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
-    public static String getServiceContent(String serviceName, String serviceFileName, String packageName) {
-        if (serviceFileName.contains(Service.DAO.getName()))
-            return initDaoContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.DAO_IMPL.getName()))
-            return initDaoImplContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.REPOSITORY.getName()))
-            return initRepositoryContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.TRANSFORMER.getName()))
-            return initTransformerContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.MAPPER.getName()))
-            return initMapperContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.SERVICE.getName()))
-            return initServiceContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.SERVICE_IMPL.getName()))
-            return initServiceImplContent(serviceName, packageName);
-        else if (serviceFileName.contains(Service.CONTROLLER.getName()))
-            return initControllerContent(serviceName, packageName);
+    public static String getServiceContent(String service, String serviceName, String packageName) {
+        if (service.equals(Service.DAO.getName())) return initDaoContent(serviceName, packageName);
+        else if (service.equals(Service.DAO_IMPL.getName())) return initDaoImplContent(serviceName, packageName);
+        else if (service.equals(Service.REPOSITORY.getName())) return initRepositoryContent(serviceName, packageName);
+        else if (service.equals(Service.TRANSFORMER.getName())) return initTransformerContent(serviceName, packageName);
+        else if (service.equals(Service.MAPPER.getName())) return initMapperContent(serviceName, packageName);
+        else if (service.equals(Service.SERVICE.getName())) return initServiceContent(serviceName, packageName);
+        else if (service.equals(Service.SERVICE_IMPL.getName())) return initServiceImplContent(serviceName, packageName);
+        else if (service.equals(Service.CONTROLLER.getName())) return initControllerContent(serviceName, packageName);
         else return "";
     }
 
@@ -120,8 +112,8 @@ public class ServiceContent {
                 "\n" +
                 "import com.ntsal.baseservice.transformer.mapper.BaseMapper;\n" +
                 "import com.ntsal.baseservice.transformer.mapper.MapStructCentralConfig;\n" +
-                "import" + packageName + ".dto." + serviceName + "Dto;\n" +
-                "import" + packageName + ".model." + serviceName + ";\n" +
+                "import " + packageName + ".dto." + serviceName + "Dto;\n" +
+                "import " + packageName + ".model." + serviceName + ";\n" +
                 "import org.mapstruct.InjectionStrategy;\n" +
                 "import org.mapstruct.Mapper;\n" +
                 "\n" +
@@ -211,8 +203,8 @@ public class ServiceContent {
                 "@AllArgsConstructor\n" +
                 "@RequestMapping(\"/api/" + uncapitalizedServiceName + "\")\n" +
                 "public class " + serviceName + "Controller implements BaseController<" + serviceName + "Service, " + serviceName + "Dto> {\n" +
-                "    private final " + serviceName + "Service " + uncapitalizedServiceName + "Service;\n" +
                 "    private final ApiResponseBuilder<" + serviceName + "Dto> apiResponseBuilder;\n" +
+                "    private final " + serviceName + "Service " + uncapitalizedServiceName + "Service;\n" +
                 "\n" +
                 "    @Override\n" +
                 "    public " + serviceName + "Service getService() {\n" +
