@@ -24,7 +24,7 @@ public class JavaServiceContentInitializer {
                 " * @since " + DATE + "\n" +
                 " */\n" +
                 "public interface " + dao.getJavaServiceInfo().getServiceName() + "Dao extends BaseDao<" + dao.getJavaServiceInfo().getServiceName() + ", " + dao.getJavaServiceInfo().getServiceName() + "Repo> {\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaDaoImplContent(JavaDaoImpl daoImpl) {
@@ -49,11 +49,11 @@ public class JavaServiceContentInitializer {
                 "    public " + daoImpl.getJavaServiceInfo().getServiceName() + "Repo getRepository() {\n" +
                 "        return " + daoImpl.getJavaServiceInfo().getServiceNameUncapitalized() + "Repo;\n" +
                 "    }\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaRepositoryContent(JavaRepository repository) {
-        return "package " + repository.getJavaServiceInfo().getServicePackage() + ".repo;\n" +
+        return "package " + repository.getJavaServiceInfo().getServicePackage() + ".dao.repo;\n" +
                 "\n" +
                 "import " + repository.getJavaServiceInfo().getServicePackage() + ".model." + repository.getJavaServiceInfo().getServiceName() + ";\n" +
                 "import org.springframework.data.jpa.repository.JpaRepository;\n" +
@@ -65,7 +65,7 @@ public class JavaServiceContentInitializer {
                 " */\n" +
                 "@Repository\n" +
                 "public interface " + repository.getJavaServiceInfo().getServiceName() + "Repo extends JpaRepository<" + repository.getJavaServiceInfo().getServiceName() + ", Long> {\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaTransformerContent(JavaTransformer transformer) {
@@ -91,7 +91,7 @@ public class JavaServiceContentInitializer {
                 "    public " + transformer.getJavaServiceInfo().getServiceName() + "Mapper getMapper() {\n" +
                 "        return " + transformer.getJavaServiceInfo().getServiceNameUncapitalized() + "Mapper;\n" +
                 "    }\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaMapperContent(JavaMapper mapper) {
@@ -110,7 +110,7 @@ public class JavaServiceContentInitializer {
                 " */\n" +
                 "@Mapper(componentModel = \"spring\", injectionStrategy = InjectionStrategy.CONSTRUCTOR, config = MapStructCentralConfig.class)\n" +
                 "public interface " + mapper.getJavaServiceInfo().getServiceName() + "Mapper extends BaseMapper<" + mapper.getJavaServiceInfo().getServiceName() + ", " + mapper.getJavaServiceInfo().getServiceName() + "Dto> {\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaServiceContent(JavaService service) {
@@ -127,7 +127,7 @@ public class JavaServiceContentInitializer {
                 " * @since " + DATE + "\n" +
                 " */\n" +
                 "public interface " + service.getJavaServiceInfo().getServiceName() + "Service extends BaseService<" + service.getJavaServiceInfo().getServiceName() + ", " + service.getJavaServiceInfo().getServiceName() + "Dto, " + service.getJavaServiceInfo().getServiceName() + "Transformer, " + service.getJavaServiceInfo().getServiceName() + "Dao> {\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaServiceImplContent(JavaServiceImpl serviceImpl) {
@@ -166,13 +166,12 @@ public class JavaServiceContentInitializer {
                 "    public MessageService getMessageService() {\n" +
                 "        return messageService;\n" +
                 "    }\n" +
-                "}";
+                "}" + "\n";
     }
 
     public static String initJavaControllerContent(JavaController controller) {
         return "package " + controller.getJavaServiceInfo().getServicePackage() + ".controller;\n" +
                 "\n" +
-                "import com.ntsal.baseservice.api.response.ApiResponse;\n" +
                 "import com.ntsal.baseservice.api.response.ApiResponseBuilder;\n" +
                 "import com.ntsal.baseservice.controller.BaseController;\n" +
                 "import " + controller.getJavaServiceInfo().getServicePackage() + ".dto." + controller.getJavaServiceInfo().getServiceName() + "Dto;\n" +
@@ -187,7 +186,7 @@ public class JavaServiceContentInitializer {
                 "@RestController\n" +
                 "@AllArgsConstructor\n" +
                 "@RequestMapping(\"/api/" + controller.getJavaServiceInfo().getServiceNameUncapitalized() + "\")\n" +
-                "public class " + controller.getJavaServiceInfo().getServiceName() + "JavaController implements BaseController<" + controller.getJavaServiceInfo().getServiceName() + "Service, " + controller.getJavaServiceInfo().getServiceName() + "Dto> {\n" +
+                "public class " + controller.getJavaServiceInfo().getServiceName() + "Controller implements BaseController<" + controller.getJavaServiceInfo().getServiceName() + "Service, " + controller.getJavaServiceInfo().getServiceName() + "Dto> {\n" +
                 "    private final ApiResponseBuilder<" + controller.getJavaServiceInfo().getServiceName() + "Dto> apiResponseBuilder;\n" +
                 "    private final " + controller.getJavaServiceInfo().getServiceName() + "Service " + controller.getJavaServiceInfo().getServiceNameUncapitalized() + "Service;\n" +
                 "\n" +
@@ -200,7 +199,6 @@ public class JavaServiceContentInitializer {
                 "    public ApiResponseBuilder<" + controller.getJavaServiceInfo().getServiceName() + "Dto> getApiResponseBuilder() {\n" +
                 "        return apiResponseBuilder;\n" +
                 "    }\n" +
-                "\n" +
-                "}";
+                "}" + "\n";
     }
 }
